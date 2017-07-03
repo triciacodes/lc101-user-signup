@@ -38,8 +38,9 @@ def display_user_signup_form():
 
 @app.route("/user-signup-complete", methods=['POST'])
 def user_signup_complete():
-    return 'Success'
 
+    username = request.form['username']
+    return '<h1>Welcome, ' + username + '</h1>'
 
 
 app.run()
