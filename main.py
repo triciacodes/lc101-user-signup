@@ -18,6 +18,10 @@ user_signup_form = """
             <input name="password" type="text" value='{password}' />
         </label>
         <p class="error">{password_error}</p>
+        <label>Password Validate
+            <input name="password_validate" type="text" value='{password_validate}' />
+        </label>
+        <p class="error">{password_validate_error}</p>
         <input type="submit" value="Submit" />
     </form>
     """
@@ -63,16 +67,18 @@ def user_signup_complete():
 
     username = request.form['username']
     password = request.form['password']
+    password_validate = request.form['password_validate']
 
     username_error = ""
     password_error = ""
+    password_validate_error = ""
 
     # THIS IS THE USERNAME VALIDATION
 
     if not empty_val(username):
         username_error = "Username cannot be blank"
     elif len(username) < 3 or len(username) > 20:
-            username_error = "Username must be between 3 and 20 characters"
+        username_error = "Username must be between 3 and 20 characters"
     else:
         if " " in username:
             username_error = "Username must not contain spaces"
@@ -82,16 +88,28 @@ def user_signup_complete():
     if not empty_val(password):
         password_error = "Password cannot be blank"
     elif len(password) < 3 or len(password) > 20:
-            password_error = "Password must be between 3 and 20 characters"
+        password_error = "Password must be between 3 and 20 characters"
     else:
         if " " in password:
             password_error = "Password must not contain spaces"
 
+    # THIS IS THE SECOND PASSWORD VALIDATION
+
+    if not empty_val(password_validate):
+        password_validate_error = "Password cannot be blank"
+    elif len(password_validate) < 3 or len(password) > 20:
+        password_validate_error = "Password must be between 3 and 20 characters"
+    elif " " in password_validate:
+            password_validate_error = "Password must not contain spaces"
+    else:
+        if password_validate != password:
+            password_validate_error = "Passwords must match"
+
     # THIS IS THE FINAL RESULT
 
-    if not username_error and not password_error:
+    if not username_error and not password_error and not password_validate_error:
         return 'Success'
     else:
-        return user_signup_form.format(username_error=username_error, username=username, password_error=password_error, password=password)
+        return user_signup_form.format(username_error=username_error, username=username, password_error=password_error, password=password, password_validate_error=password_validate_error, password_validate=password_validate)
 
 app.run()
