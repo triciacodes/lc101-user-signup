@@ -9,7 +9,7 @@ user_signup_form = """
     </style>
     <h1>User Sign-up</h1>
     <!--  form action needs to match the url you want it to go to after submit -->
-    <form action="/user-signup-complete" method='POST'>
+    <form action="/" method='POST'>
         <label>Username
             <input name="username" type="text" value='{username}' />
         </label>
@@ -18,14 +18,6 @@ user_signup_form = """
             <input name="password" type="text" value='{password}' />
         </label>
         <p class="error">{password_error}</p>
-        <label>Password Validate
-            <input name="password_validate" type="text" value='{password_validate}' />
-        </label>
-        <p class="error">{password_validate_error}</p>
-        <label>E-mail (optional)
-            <input name="email_validate" type="text" value='{email}' />
-        </label>
-        <p class="error">{email_error}</p>
         <input type="submit" value="Submit" />
     </form>
     """
@@ -66,35 +58,40 @@ def email_period(x):
     else:
         return False
 
-@app.route("/user-signup-complete", methods=['POST'])
+@app.route("/", methods=['POST'])
 def user_signup_complete():
 
     username = request.form['username']
-    # password = request.form['password']
-    # password_validate = request.form['password_validate']
-    # email = request.form['email']
+    password = request.form['password']
 
     username_error = ""
-    # password_error = ""
-    # password_validate_error = ""
-    # email_error = ""
+    password_error = ""
 
-    if not email_period(username):
+    # THIS IS THE USERNAME VALIDATION
+
+    if not empty_val(username):
         username_error = "Username cannot be blank"
-    
-    #if not empty_val(password):
-        #password_error = "Password cannot be blank"
+    elif len(username) < 3 or len(username) > 20:
+            username_error = "Username must be between 3 and 20 characters"
+    else:
+        if " " in username:
+            username_error = "Username must not contain spaces"
 
-    #if not empty_val(password_validate):
-        #password_validate_error = "Second password cannot be blank"
+    # THIS IS THE PASSWORD VALIDATION
 
-    #if not username_error and not password_error and not password_validate_error:
-    if not username_error:
+    if not empty_val(password):
+        password_error = "Password cannot be blank"
+    elif len(password) < 3 or len(password) > 20:
+            password_error = "Password must be between 3 and 20 characters"
+    else:
+        if " " in password:
+            password_error = "Password must not contain spaces"
+
+    # THIS IS THE FINAL RESULT
+
+    if not username_error and not password_error:
         return 'Success'
     else:
-        return username_error
-
-    # returns success message with username
-    #return '<h1>Welcome, ' + username + '</h1>'
+        return user_signup_form.format(username_error=username_error, username=username, password_error=password_error, password=password)
 
 app.run()
