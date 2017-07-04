@@ -37,7 +37,31 @@ def display_user_signup_form():
         password='', password_error='', password_validate='', password_validate_error='', email='', email_error='', )
 
 def empty_val(x):
+    if x:
+        return True
+    else:
+        return False
+
+def char_length(x):
     if len(x) > 2 and len(x) < 21:
+        return True
+    else:
+        return False
+
+def has_space(x):
+    if " " not in x:
+        return True
+    else:
+        return False
+
+def email_at_symbol(x):
+    if x.count('@') == 1:
+        return True
+    else:
+        return False
+
+def email_period(x):
+    if x.count('.') == 1:
         return True
     else:
         return False
@@ -55,7 +79,7 @@ def user_signup_complete():
     # password_validate_error = ""
     # email_error = ""
 
-    if not empty_val(username):
+    if not email_period(username):
         username_error = "Username cannot be blank"
     
     #if not empty_val(password):
@@ -68,7 +92,7 @@ def user_signup_complete():
     if not username_error:
         return 'Success'
     else:
-        return 'Error'
+        return username_error
 
     # returns success message with username
     #return '<h1>Welcome, ' + username + '</h1>'
