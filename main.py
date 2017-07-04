@@ -8,7 +8,7 @@ user_signup_form = """
         .error {{ color: red; }}
     </style>
     <h1>User Sign-up</h1>
-    # form action needs to match the url you want it to go to after submit
+    <!--  form action needs to match the url you want it to go to after submit -->
     <form action="/user-signup-complete" method='POST'>
         <label>Username
             <input name="username" type="text" value='{username}' />
@@ -36,11 +36,41 @@ def display_user_signup_form():
     return user_signup_form.format(username='', username_error='',
         password='', password_error='', password_validate='', password_validate_error='', email='', email_error='', )
 
+def empty_val(x):
+    if len(x) > 2 and len(x) < 21:
+        return True
+    else:
+        return False
+
 @app.route("/user-signup-complete", methods=['POST'])
 def user_signup_complete():
 
     username = request.form['username']
-    return '<h1>Welcome, ' + username + '</h1>'
+    # password = request.form['password']
+    # password_validate = request.form['password_validate']
+    # email = request.form['email']
 
+    username_error = ""
+    # password_error = ""
+    # password_validate_error = ""
+    # email_error = ""
+
+    if not empty_val(username):
+        username_error = "Username cannot be blank"
+    
+    #if not empty_val(password):
+        #password_error = "Password cannot be blank"
+
+    #if not empty_val(password_validate):
+        #password_validate_error = "Second password cannot be blank"
+
+    #if not username_error and not password_error and not password_validate_error:
+    if not username_error:
+        return 'Success'
+    else:
+        return 'Error'
+
+    # returns success message with username
+    #return '<h1>Welcome, ' + username + '</h1>'
 
 app.run()
