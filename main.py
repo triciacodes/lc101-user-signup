@@ -1,7 +1,7 @@
 # TO DO:
 # link up the small functions to the email validations
 
-from flask import Flask, request
+from flask import Flask, request, redirect
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -12,7 +12,7 @@ user_signup_form = """
     </style>
     <h1>User Sign-up</h1>
     <!--  form action needs to match the url you want it to go to after submit -->
-    <form action="/" method='POST'>
+    <form method='POST'>
         <label>Username
             <input name="username" type="text" value='{username}' />
         </label>
@@ -33,11 +33,14 @@ user_signup_form = """
     </form>
     """
 
+# THIS CREATES ROUTE TO DISPLAY THE FORM
 
-@app.route('/')
+@app.route('/signup')
 def display_user_signup_form():
     return user_signup_form.format(username='', username_error='',
         password='', password_error='', password_validate='', password_validate_error='', email='', email_error='', )
+
+# THESE ARE FUNCTIONS FOR THE VALIDATIONS
 
 def empty_val(x):
     if x:
@@ -81,13 +84,19 @@ def email_period_more_than_one(x):
     else:
         return False
 
-@app.route("/", methods=['POST'])
+# THIS CREATES ROUTE TO PROCESS AND VALIDATE THE FORM
+
+@app.route("/signup", methods=['POST'])
 def user_signup_complete():
+
+    # THIS CREATES VARIABLES FROM THE FORM INPUTS
 
     username = request.form['username']
     password = request.form['password']
     password_validate = request.form['password_validate']
     email = request.form['email']
+
+    # THIS CREATES EMPTY STRINGS FOR THE ERROR MESSAGES
 
     username_error = ""
     password_error = ""
@@ -195,9 +204,19 @@ def user_signup_complete():
     # THIS IS THE FINAL RESULT
 
     if not username_error and not password_error and not password_validate_error and not email_error:
-        return 'Success'
-        #return '<h1>Welcome, ' + username + '</h1>'
+        username = username
+        #return username
+        return redirect('/welcome?username={0}'.format(username))
+        #return redirect('/welcome?username={username}')
+        #return redirect('/welcome')
     else:
         return user_signup_form.format(username_error=username_error, username=username, password_error=password_error, password=password, password_validate_error=password_validate_error, password_validate=password_validate, email_error=email_error, email=email)
+
+@app.route('/welcome')
+def valid_signup():
+    username = request.args.get('username')
+    #username = request.form['username']
+    #return '<h1>Welcome, ' + username + '!</h1>'
+    return "Welcome, " + username + "!"
 
 app.run()
