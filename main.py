@@ -18,11 +18,11 @@ user_signup_form = """
         </label>
         <p class="error">{username_error}</p>
         <label>Password
-            <input name="password" type="password" value='{password}' />
+            <input name="password" type="text" value='{password}' />
         </label>
         <p class="error">{password_error}</p>
         <label>Password Validate
-            <input name="password_validate" type="password" value='{password_validate}' />
+            <input name="password_validate" type="text" value='{password_validate}' />
         </label>
         <p class="error">{password_validate_error}</p>
         <label>E-mail (optional)
@@ -103,28 +103,6 @@ def user_signup_complete():
     password_validate_error = ""
     email_error = ""
 
-    # THIS IS THE USERNAME VALIDATION
-
-    if not empty_val(username):
-        username_error = "Username cannot be blank"
-        password = ''
-        password_validate = ''
-        password_error = 'Please re-enter password'
-        password_validate_error = 'Please re-enter password'
-    elif len(username) < 3 or len(username) > 20:
-        username_error = "Username must be between 3 and 20 characters"
-        password = ''
-        password_validate = ''
-        password_error = 'Please re-enter password'
-        password_validate_error = 'Please re-enter password'
-    else:
-        if " " in username:
-            username_error = "Username must not contain spaces"
-            password = ''
-            password_validate = ''
-            password_error = 'Please re-enter password'
-            password_validate_error = 'Please re-enter password'
-
     # THIS IS THE PASSWORD VALIDATION
 
     if not empty_val(password):
@@ -160,6 +138,28 @@ def user_signup_complete():
             password_validate_error = "Passwords must match"
             password = ''
             password_validate = ''
+
+    # THIS IS THE USERNAME VALIDATION
+
+    if not empty_val(username):
+        username_error = "Username cannot be blank"
+        password = ''
+        password_validate = ''
+        password_error = 'Please re-enter password'
+        password_validate_error = 'Please re-enter password'
+    elif len(username) < 3 or len(username) > 20:
+        username_error = "Username must be between 3 and 20 characters"
+        password = ''
+        password_validate = ''
+        password_error = 'Please re-enter password'
+        password_validate_error = 'Please re-enter password'
+    else:
+        if " " in username:
+            username_error = "Username must not contain spaces"
+            password = ''
+            password_validate = ''
+            password_error = 'Please re-enter password'
+            password_validate_error = 'Please re-enter password'
 
     # THIS IS THE EMAIL VALIDATION
 
@@ -211,6 +211,8 @@ def user_signup_complete():
         #return redirect('/welcome')
     else:
         return user_signup_form.format(username_error=username_error, username=username, password_error=password_error, password=password, password_validate_error=password_validate_error, password_validate=password_validate, email_error=email_error, email=email)
+
+# THIS REDIRECTS TO A WELCOME PAGE
 
 @app.route('/welcome')
 def valid_signup():
