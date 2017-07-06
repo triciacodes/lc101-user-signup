@@ -1,14 +1,10 @@
 # TO DO:
 # link up the small functions to the email validations
 
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, render_template
 
 import cgi
 import os
-import jinja2
-
-template_dir = os.path.join(os.path.dirname(__file__), 'templates')
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape=True)
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -17,8 +13,7 @@ app.config['DEBUG'] = True
 
 @app.route('/signup')
 def display_user_signup_form():
-    template = jinja_env.get_template('main.html')
-    return template.render()
+    return render_template('main.html')
 
 # THESE ARE FUNCTIONS FOR THE VALIDATIONS
 
@@ -190,18 +185,13 @@ def user_signup_complete():
         #return redirect('/welcome?username={username}')
         #return redirect('/welcome')
     else:
-        template = jinja_env.get_template('main.html')
-        return template.render(username_error=username_error, username=username, password_error=password_error, password=password, password_validate_error=password_validate_error, password_validate=password_validate, email_error=email_error, email=email)
+        return render_template('main.html', username_error=username_error, username=username, password_error=password_error, password=password, password_validate_error=password_validate_error, password_validate=password_validate, email_error=email_error, email=email)
 
 # THIS REDIRECTS TO A WELCOME PAGE
 
 @app.route('/welcome')
 def valid_signup():
     username = request.args.get('username')
-    #username = request.form['username']
-    #return '<h1>Welcome, ' + username + '!</h1>'
-    template = jinja_env.get_template('welcome.html')
-    #return "Welcome, " + username + "!"
-    return template.render(username=username)
+    return render_template('welcome.html', username=username)
 
 app.run()
