@@ -1,0 +1,76 @@
+body {
+    font-size: 110%;
+    font-family: 'Work Sans', sans-serif;
+    background-color:lightgrey;
+    padding-top: 2rem;
+}
+
+.container {
+    margin: auto;
+    width: 35%;
+}
+
+/* the entire form */
+
+form {
+    background-color: white;
+    margin: auto;
+    position: relative;
+    font-size: 0.9rem;
+    line-height: 1.5rem;
+    text-decoration: none;
+    border-radius: 2%;
+    padding: 2rem;
+    padding-top: 1.4rem;
+    border: 1px solid #DDD;
+    border: inset 1px solid #DDD;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* makes the boxes shift to next line */
+
+.form_label {
+    display: block;
+}
+
+h1 {
+    font-size: 2rem;
+    line-height: 1rem;
+    padding-left: 0.5rem;
+}
+
+/* submit button */
+
+input {
+    width: 95%;
+    margin: auto;
+    padding: 0.6rem;
+    border: 1px solid black;
+    font-size: 1rem;
+}
+
+/* error messages */
+
+.error {
+    color: crimson;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    line-height: 1rem;
+}
+
+.error:last-of-type {
+    margin-bottom: 1.5rem;
+}
+
+/* submit button */
+
+.submit { 
+    width: auto;
+    padding: 0.7rem 1rem; 
+    background-color: teal;
+    border: 0;
+    color: #FFFFFF; 
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.1rem;
+}

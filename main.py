@@ -138,43 +138,46 @@ def user_signup_complete():
 
     # THIS IS THE EMAIL VALIDATION
 
-    if not char_length(email):
-        email_error = "Email " + err_char_count
-        password = ''
-        password_validate = ''
-        password_error = err_reenter_pw
-        password_validate_error = err_reenter_pw
-    elif not email_at_symbol(email):
-        email_error = "Email must contain the @ symbol"
-        password = ''
-        password_validate = ''
-        password_error = err_reenter_pw
-        password_validate_error = err_reenter_pw
-    elif not email_at_symbol_more_than_one(email):
-        email_error = "Email must contain only one @ symbol"
-        password = ''
-        password_validate = ''
-        password_error = err_reenter_pw
-        password_validate_error = err_reenter_pw
-    elif not email_period(email):
-        email_error = "Email must contain a ."
-        password = ''
-        password_validate = ''
-        password_error = err_reenter_pw
-        password_validate_error = err_reenter_pw
-    elif not email_period_more_than_one(email):
-        email_error = "Email must contain only one ."
-        password = ''
-        password_validate = ''
-        password_error = err_reenter_pw
-        password_validate_error = err_reenter_pw
-    else:
-        if " " in email:
-            email_error = "Email " + err_no_spaces
+    # checks to see if email contains text prior to running validations
+    if '' not in email:
+        # validations start here
+        if not char_length(email):
+            email_error = "Email " + err_char_count
             password = ''
             password_validate = ''
             password_error = err_reenter_pw
             password_validate_error = err_reenter_pw
+        elif not email_at_symbol(email):
+            email_error = "Email must contain the @ symbol"
+            password = ''
+            password_validate = ''
+            password_error = err_reenter_pw
+            password_validate_error = err_reenter_pw
+        elif not email_at_symbol_more_than_one(email):
+            email_error = "Email must contain only one @ symbol"
+            password = ''
+            password_validate = ''
+            password_error = err_reenter_pw
+            password_validate_error = err_reenter_pw
+        elif not email_period(email):
+            email_error = "Email must contain a ."
+            password = ''
+            password_validate = ''
+            password_error = err_reenter_pw
+            password_validate_error = err_reenter_pw
+        elif not email_period_more_than_one(email):
+            email_error = "Email must contain only one ."
+            password = ''
+            password_validate = ''
+            password_error = err_reenter_pw
+            password_validate_error = err_reenter_pw
+        else:
+            if " " in email:
+                email_error = "Email " + err_no_spaces
+                password = ''
+                password_validate = ''
+                password_error = err_reenter_pw
+                password_validate_error = err_reenter_pw
 
     # IF THERE ARE NO ERRORS, THIS WILL REDIRECT TO WELCOME.HTML
     # IF THERE ARE ERRORS, THIS WILL STAY ON THE MAIN.HTML (FORM) AND DISPLAY THE ERROR MSGS
