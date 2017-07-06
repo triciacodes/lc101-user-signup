@@ -226,6 +226,8 @@ def valid_signup():
     username = request.args.get('username')
     #username = request.form['username']
     #return '<h1>Welcome, ' + username + '!</h1>'
-    return "Welcome, " + username + "!"
+    template = jinja_env.get_template('welcome.html')
+    #return "Welcome, " + username + "!"
+    return template.render(imp_username=username)
 
 app.run()
