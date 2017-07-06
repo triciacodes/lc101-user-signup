@@ -180,10 +180,7 @@ def user_signup_complete():
 
     if not username_error and not password_error and not password_validate_error and not email_error:
         username = username
-        #return username
         return redirect('/welcome?username={0}'.format(username))
-        #return redirect('/welcome?username={username}')
-        #return redirect('/welcome')
     else:
         return render_template('main.html', username_error=username_error, username=username, password_error=password_error, password=password, password_validate_error=password_validate_error, password_validate=password_validate, email_error=email_error, email=email)
 
