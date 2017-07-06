@@ -78,34 +78,41 @@ def user_signup_complete():
     password_validate_error = ""
     email_error = ""
 
+    # THESE ARE THE ERROR MESSAGES THAT OCCUR MORE THAN ONCE
+
+    err_blank = "cannot be blank"
+    err_reenter_pw = "Please re-enter password"
+    err_char_count = "must be between 3 and 20 characters"
+    err_no_spaces = "must not contain spaces"
+
     # THIS IS THE PASSWORD VALIDATION
 
     if not empty_val(password):
-        password_error = "Password cannot be blank"
+        password_error = "Password " + err_blank
         password = ''
         password_validate = ''
     elif len(password) < 3 or len(password) > 20:
-        password_error = "Password must be between 3 and 20 characters"
+        password_error = "Password " + err_char_count
         password = ''
         password_validate = ''
     else:
         if " " in password:
-            password_error = "Password must not contain spaces"
+            password_error = "Password " + err_no_spaces
             password = ''
             password_validate = ''
 
     # THIS IS THE SECOND PASSWORD VALIDATION
 
     if not empty_val(password_validate):
-        password_validate_error = "Password cannot be blank"
+        password_validate_error = "Password " + err_blank
         password = ''
         password_validate = ''
     elif len(password_validate) < 3 or len(password) > 20:
-        password_validate_error = "Password must be between 3 and 20 characters"
+        password_validate_error = "Password " + err_char_count
         password = ''
         password_validate = ''
     elif " " in password_validate:
-            password_validate_error = "Password must not contain spaces"
+            password_validate_error = "Password " + err_blank
             password = ''
             password_validate = ''
     else:
@@ -117,66 +124,67 @@ def user_signup_complete():
     # THIS IS THE USERNAME VALIDATION
 
     if not empty_val(username):
-        username_error = "Username cannot be blank"
+        username_error = "Username " + err_blank
         password = ''
         password_validate = ''
-        password_error = 'Please re-enter password'
-        password_validate_error = 'Please re-enter password'
+        password_error = err_reenter_pw
+        password_validate_error = err_reenter_pw
     elif len(username) < 3 or len(username) > 20:
-        username_error = "Username must be between 3 and 20 characters"
+        username_error = "Username " + err_char_count
         password = ''
         password_validate = ''
-        password_error = 'Please re-enter password'
-        password_validate_error = 'Please re-enter password'
+        password_error = err_reenter_pw
+        password_validate_error = err_reenter_pw
     else:
         if " " in username:
-            username_error = "Username must not contain spaces"
+            username_error = "Username " + err_no_spaces
             password = ''
             password_validate = ''
-            password_error = 'Please re-enter password'
-            password_validate_error = 'Please re-enter password'
+            password_error = err_reenter_pw
+            password_validate_error = err_reenter_pw
 
     # THIS IS THE EMAIL VALIDATION
 
     if not char_length(email):
-        email_error = "Email must be between 3 and 20 characters"
+        email_error = "Email " + err_char_count
         password = ''
         password_validate = ''
-        password_error = 'Please re-enter password'
-        password_validate_error = 'Please re-enter password'
+        password_error = err_reenter_pw
+        password_validate_error = err_reenter_pw
     elif not email_at_symbol(email):
         email_error = "Email must contain the @ symbol"
         password = ''
         password_validate = ''
-        password_error = 'Please re-enter password'
-        password_validate_error = 'Please re-enter password'
+        password_error = err_reenter_pw
+        password_validate_error = err_reenter_pw
     elif not email_at_symbol_more_than_one(email):
         email_error = "Email must contain only one @ symbol"
         password = ''
         password_validate = ''
-        password_error = 'Please re-enter password'
-        password_validate_error = 'Please re-enter password'
+        password_error = err_reenter_pw
+        password_validate_error = err_reenter_pw
     elif not email_period(email):
         email_error = "Email must contain a ."
         password = ''
         password_validate = ''
-        password_error = 'Please re-enter password'
-        password_validate_error = 'Please re-enter password'
+        password_error = err_reenter_pw
+        password_validate_error = err_reenter_pw
     elif not email_period_more_than_one(email):
         email_error = "Email must contain only one ."
         password = ''
         password_validate = ''
-        password_error = 'Please re-enter password'
-        password_validate_error = 'Please re-enter password'
+        password_error = err_reenter_pw
+        password_validate_error = err_reenter_pw
     else:
         if " " in email:
-            email_error = "Email must not contain spaces"
+            email_error = "Email " + err_no_spaces
             password = ''
             password_validate = ''
-            password_error = 'Please re-enter password'
-            password_validate_error = 'Please re-enter password'
+            password_error = err_reenter_pw
+            password_validate_error = err_reenter_pw
 
-    # THIS IS THE FINAL RESULT
+    # IF THERE ARE NO ERRORS, THIS WILL REDIRECT TO WELCOME.HTML
+    # IF THERE ARE ERRORS, THIS WILL STAY ON THE MAIN.HTML (FORM) AND DISPLAY THE ERROR MSGS
 
     if not username_error and not password_error and not password_validate_error and not email_error:
         username = username
