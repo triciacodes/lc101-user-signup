@@ -1,6 +1,3 @@
-# TO DO:
-# link up the small functions to the email validations
-
 from flask import Flask, request, redirect, render_template
 
 import cgi
@@ -25,12 +22,6 @@ def empty_val(x):
 
 def char_length(x):
     if len(x) > 2 and len(x) < 21:
-        return True
-    else:
-        return False
-
-def has_space(x):
-    if " " not in x:
         return True
     else:
         return False
@@ -91,15 +82,17 @@ def user_signup_complete():
         password_error = "Password " + err_blank
         password = ''
         password_validate = ''
-    elif len(password) < 3 or len(password) > 20:
+    elif not char_length(password):
         password_error = "Password " + err_char_count
         password = ''
         password_validate = ''
+        password_validate_error = err_reenter_pw
     else:
         if " " in password:
             password_error = "Password " + err_no_spaces
             password = ''
             password_validate = ''
+            password_validate_error = err_reenter_pw
 
     # THIS IS THE SECOND PASSWORD VALIDATION
 
@@ -107,7 +100,7 @@ def user_signup_complete():
         password_validate_error = "Password " + err_blank
         password = ''
         password_validate = ''
-    elif len(password_validate) < 3 or len(password) > 20:
+    elif not char_length(password_validate):
         password_validate_error = "Password " + err_char_count
         password = ''
         password_validate = ''
@@ -129,7 +122,7 @@ def user_signup_complete():
         password_validate = ''
         password_error = err_reenter_pw
         password_validate_error = err_reenter_pw
-    elif len(username) < 3 or len(username) > 20:
+    elif not char_length(username):
         username_error = "Username " + err_char_count
         password = ''
         password_validate = ''
