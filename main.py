@@ -13,39 +13,12 @@ jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), a
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-user_signup_form = """
-    <style>
-        .error {{ color: red; }}
-    </style>
-    <h1>User Sign-up</h1>
-    <!--  form action needs to match the url you want it to go to after submit -->
-    <form method='POST'>
-        <label>Username
-            <input name="username" type="text" value='{username}' />
-        </label>
-        <p class="error">{username_error}</p>
-        <label>Password
-            <input name="password" type="text" value='{password}' />
-        </label>
-        <p class="error">{password_error}</p>
-        <label>Password Validate
-            <input name="password_validate" type="text" value='{password_validate}' />
-        </label>
-        <p class="error">{password_validate_error}</p>
-        <label>E-mail (optional)
-            <input name="email" type="text" value='{email}' />
-        </label>
-        <p class="error">{email_error}</p>
-        <input type="submit" value="Submit" />
-    </form>
-    """
-
 # THIS CREATES ROUTE TO DISPLAY THE FORM
 
 @app.route('/signup')
 def display_user_signup_form():
-    return user_signup_form.format(username='', username_error='',
-        password='', password_error='', password_validate='', password_validate_error='', email='', email_error='', )
+    template = jinja_env.get_template('main.html')
+    return template.render()
 
 # THESE ARE FUNCTIONS FOR THE VALIDATIONS
 
@@ -217,7 +190,8 @@ def user_signup_complete():
         #return redirect('/welcome?username={username}')
         #return redirect('/welcome')
     else:
-        return user_signup_form.format(username_error=username_error, username=username, password_error=password_error, password=password, password_validate_error=password_validate_error, password_validate=password_validate, email_error=email_error, email=email)
+        template = jinja_env.get_template('main.html')
+        return template.render(username_error=username_error, username=username, password_error=password_error, password=password, password_validate_error=password_validate_error, password_validate=password_validate, email_error=email_error, email=email)
 
 # THIS REDIRECTS TO A WELCOME PAGE
 
@@ -228,6 +202,6 @@ def valid_signup():
     #return '<h1>Welcome, ' + username + '!</h1>'
     template = jinja_env.get_template('welcome.html')
     #return "Welcome, " + username + "!"
-    return template.render(imp_username=username)
+    return template.render(username=username)
 
 app.run()
