@@ -71,7 +71,7 @@ def user_signup_complete():
 
     # THESE ARE THE ERROR MESSAGES THAT OCCUR MORE THAN ONCE
 
-    err_blank = "cannot be blank"
+    err_required = "Required field"
     err_reenter_pw = "Please re-enter password"
     err_char_count = "must be between 3 and 20 characters"
     err_no_spaces = "must not contain spaces"
@@ -79,7 +79,7 @@ def user_signup_complete():
     # THIS IS THE PASSWORD VALIDATION
 
     if not empty_val(password):
-        password_error = "Password " + err_blank
+        password_error = err_required
         password = ''
         password_validate = ''
     elif not char_length(password):
@@ -96,28 +96,17 @@ def user_signup_complete():
 
     # THIS IS THE SECOND PASSWORD VALIDATION
 
-    if not empty_val(password_validate):
-        password_validate_error = "Password " + err_blank
+    if password_validate != password:
+        password_validate_error = "Passwords must match"
         password = ''
         password_validate = ''
-    elif not char_length(password_validate):
-        password_validate_error = "Password " + err_char_count
-        password = ''
-        password_validate = ''
-    elif " " in password_validate:
-            password_validate_error = "Password " + err_blank
-            password = ''
-            password_validate = ''
-    else:
-        if password_validate != password:
-            password_validate_error = "Passwords must match"
-            password = ''
-            password_validate = ''
+        password_error = 'Passwords must match'
+            
 
     # THIS IS THE USERNAME VALIDATION
 
     if not empty_val(username):
-        username_error = "Username " + err_blank
+        username_error = err_required
         password = ''
         password_validate = ''
         password_error = err_reenter_pw
@@ -139,7 +128,7 @@ def user_signup_complete():
     # THIS IS THE EMAIL VALIDATION
 
     # checks to see if email contains text prior to running validations
-    if '' not in email:
+    if empty_val(email):
         # validations start here
         if not char_length(email):
             email_error = "Email " + err_char_count
@@ -160,7 +149,7 @@ def user_signup_complete():
             password_error = err_reenter_pw
             password_validate_error = err_reenter_pw
         elif not email_period(email):
-            email_error = "Email must contain a ."
+            email_error = "Email must contain ."
             password = ''
             password_validate = ''
             password_error = err_reenter_pw
